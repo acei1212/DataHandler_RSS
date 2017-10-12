@@ -1,13 +1,17 @@
 package com.example.student.myapplication;
 
-import android.util.Log;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
+
 public class MyDataHandler extends DefaultHandler {
     boolean isTitle = false;
+    boolean isItem = false;
+    boolean isLink = false;
+    public ArrayList<RSSNewsItem> data = new ArrayList<>();
+    RSSNewsItem item;
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
@@ -31,7 +35,13 @@ public class MyDataHandler extends DefaultHandler {
         super.characters(ch, start, length);
         if (isTitle)
         {
-            Log.d("NET", new String(ch, start, length));
+            item.title = new String(ch, start, length);
+            // Log.d("NET", new String(ch, start, length));
+        }
+        if (isItem && isLink)
+        {
+            item.link = new String(ch, start, length);
+            // Log.d("NET", new String(ch, start, length));
         }
     }
 }
